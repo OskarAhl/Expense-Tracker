@@ -39,6 +39,8 @@ module.exports = {
     devtool: 'cheap-module-source-map',
     devServer: {
         contentBase: path.join(__dirname, 'public'),
+        // to serve index.html for routing (i.e. for client side routing)
+        historyApiFallback: true
     }
 };
 
