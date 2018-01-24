@@ -1,18 +1,37 @@
 import { createStore } from 'redux';
 
+// Action generators - functions that return action object
+const incrementCount = ({ incrementBy = 1 } = {}) => ({
+        type: 'INCREMENT',
+        incrementBy,
+});
+
+const decrementCount = ({decrementBy = 1} = {}) => ({
+    type: 'DECREMENT',
+    decrementBy
+});
+
+const setCount = ({setCount = 101 } = {}) => ({
+    type: 'SET',
+    setCount
+});
+
+const resetCount = ({} = {}) => ({
+    type: 'RESET'
+});
 // set default state
 const store = createStore((state = { count : 0}, action) => {
     switch (action.type) {
         case 'INCREMENT': 
-            const incrementBy = action.incrementBy ? action.incrementBy : 0;
-            return { count: state.count + incrementBy };
+            return { count: state.count + action.incrementBy };
         case 'DECREMENT': 
-            const decrementBy = action.decrementBy ? action.decrementBy : 1;
-            return {count: state.count - decrementBy};
+            return {count: state.count - action.decrementBy};
         case 'RESET': 
             return {count: 0};
         case 'SET':
-            return { count: action.count};
+            return { count: action.setCount};
+        case 'RESET': 
+            return {count: 0}
         default:
             return state;
     }
@@ -26,19 +45,15 @@ console.log(store.getState());
 // actions - change redux store state - obj that gets sent to redux store 
 
 // increment
-store.dispatch({
-    type: 'INCREMENT',
-    incrementBy: 5,
-});
+store.dispatch(incrementCount());
+store.dispatch(incrementCount({ incrementBy: 5 }));
 // unsubscribe();
-store.dispatch({type: 'DECREMENT', decrementBy: 10});
-store.dispatch({type: 'DECREMENT'});
+store.dispatch(decrementCount());
+store.dispatch(decrementCount({ decrementBy: 100 }));
 
-
-store.dispatch({
-    type: 'SET',
-    count: 101
-});
+store.dispatch(setCount());
 // reset
+store.dispatch(resetCount({ta: 12233}));
+
 
 
