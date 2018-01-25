@@ -19,8 +19,12 @@ const setCount = ({setCount = 101 } = {}) => ({
 const resetCount = ({} = {}) => ({
     type: 'RESET'
 });
-// set default state
-const store = createStore((state = { count : 0}, action) => {
+
+// Reducer function- how to change state based on action 
+// 1. Pure functions ( - output (state) ONLY  determined by input (action) e.g. DON'T rely on variables outside the function)) 
+// (- don't change anything OUTSIDE the function)
+// 2. Never change state or action (don't mutate only read off)
+const countReducer = ((state = { count : 0}, action) => {
     switch (action.type) {
         case 'INCREMENT': 
             return { count: state.count + action.incrementBy };
@@ -36,6 +40,8 @@ const store = createStore((state = { count : 0}, action) => {
             return state;
     }
 });
+
+const store = createStore();
 
 const unsubscribe = store.subscribe(() => {
     console.log('subscribe: ', store.getState());
