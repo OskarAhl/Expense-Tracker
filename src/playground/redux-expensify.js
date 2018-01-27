@@ -3,6 +3,7 @@ import uuid from 'uuid';
 
 // ADD_EXPENSE
 const addExpense = (
+    // default assignments
     {
         description = '', 
         note = '', 
@@ -58,7 +59,23 @@ const setEndDate = (endDate = undefined) => ({
     endDate
 });
 
-// --> break up application in many reducers
+// timestamp - milliseconds (positive forward in time from Jan 1 1970 or negative integers after Jan 1 1970)
+// e.g. 33400 -> 33400 ms after 1 Jan 1970
+// -2500 -> 2500 ms before 1 Jan 1970
+
+// Get visible expenses - destructure filter object
+const getVisibleExpenses = (expenses, { text, sortBy, startDate, endDate }) => {
+    return expenses.filter((expense) => {
+        // ignored if not number - i.e. not included in filtering
+        const startDateMatch = typeof startDate !== 'number' || expense.createdAt >= startDate;
+        const endDateMatch = typeof endDate !== 'number' || expense.createdAt <= endDate; 
+        const textMatch = !text || expense.description.toLowerCase().includes(text.toLowerCase());
+
+        return startDateMatch && endDateMatch && textMatch;
+    });
+};
+
+// --> complex objects break up application in many reducers
 // 1. Expenses Reducer 2. Filters Reducer
 
 const expensesDefaultState = [];
@@ -128,28 +145,30 @@ const store = createStore(
     combineReducers({
         // set up expensesReducer for expenses
         expenses: expensesReducer,
-        filter: filterReducer
+        filters: filterReducer
     })
 );
 
 store.subscribe(() => {
-    console.log(store.getState());
+    const state = store.getState();
+    const visibleExpenses = getVisibleExpenses(state.expenses, state.filters); 
+    console.log(visibleExpenses);
 });
 
-// const expenseOne = store.dispatch(addExpense({description : 'Rent', amount: 50}));
-// const expenseTwo = store.dispatch(addExpense({description : 'Coffee', amount: 123}));
+const expenseOne = store.dispatch(addExpense({description : 'Rent', amount: 50, createdAt: 1000}));
+const expenseTwo = store.dispatch(addExpense({description : 'Coffee', amount: 123, createdAt: -1000}));
 
 // store.dispatch(removeExpense({id: expenseOne.expense.id}));
 // store.dispatch(editExpense(expenseTwo.expense.id, {amount: 14}));
 
-// store.dispatch(setTextFilter('rent'));
+store.dispatch(setTextFilter('ffe'));
 
 // store.dispatch(sortByAmount());
 // store.dispatch(sortByDate());
 
-store.dispatch(setStartDate(125));
-store.dispatch(setStartDate());
-store.dispatch(setEndDate(555));
+// store.dispatch(setStartDate(0));
+// store.dispatch(setStartDate());
+// store.dispatch(setEndDate(1000));
 
 const demoState = {
     expenses: [{
