@@ -9,7 +9,7 @@ const path = require('path');
 
 // expose object to another file (to webpack)
 module.exports = {
-    entry: './src/playground/hoc.js',
+    entry: './src/app.js',
     output: {
         // path to project on our machine 
         path: path.join(__dirname, 'public'),
