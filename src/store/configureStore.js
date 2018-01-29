@@ -9,7 +9,8 @@ export default () => {
             // set up expensesReducer for expenses
             expenses: expensesReducer,
             filters: filterReducer
-        })
+        }),
+        window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
     );
     return store;
 };
