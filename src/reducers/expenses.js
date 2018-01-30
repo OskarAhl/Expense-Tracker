@@ -7,7 +7,7 @@ export default (state = expensesDefaultState, action) => {
         // spread operator similar to concat
         return [...state, action.expense];
     case 'REMOVE_EXPENSE':
-        return state.filter(({ id }) => id  !== action.expense.id );
+        return state.filter(({ id }) => id  !== action.id );
     case 'EDIT_EXPENSE':
         return state.map((expense) => {
             if (expense.id === action.id) {
