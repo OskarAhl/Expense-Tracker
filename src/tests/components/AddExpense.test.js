@@ -7,7 +7,7 @@ let addExpense, history, wrapper;
 beforeEach(() => {
     addExpense = jest.fn();
     history = { push: jest.fn() };
-    wrapper = shallow(<AddExpensePage addExpense={addExpense} history={history} />);
+    wrapper = shallow(<AddExpensePage expense={expenses[1]} addExpense={addExpense} history={history} />);
 });
 
 test('should render Add Expense page', () => {
@@ -15,7 +15,7 @@ test('should render Add Expense page', () => {
 });
 
 test('should handle addExpense', () => {
-    wrapper.find('ExpenseForm').prop('addExpense')(expenses[1]);
+    wrapper.find('ExpenseForm').prop('onSubmit')(expenses[1]);
     expect(history.push).toHaveBeenLastCalledWith('/');
     expect(addExpense).toHaveBeenLastCalledWith(expenses[1]);
 });
