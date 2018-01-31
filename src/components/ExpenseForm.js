@@ -1,7 +1,6 @@
 import React from 'react';
 import moment from 'moment';
 import { SingleDatePicker } from 'react-dates';
-import 'react-dates/lib/css/_datepicker.css';
 
 // use local state to check the form - when user submits change global state
 export default class ExpenseForm extends React.Component {

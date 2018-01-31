@@ -9,6 +9,7 @@ import getVisibleExpenses from './selectors/expenses';
 // normalize => reset browser default css
 import 'normalize.css/normalize.css';
 import './styles/styles.scss';
+import 'react-dates/lib/css/_datepicker.css';
 
 // gives access to store.dispatch, store.subcscribe etc
 const store = configureStore();
