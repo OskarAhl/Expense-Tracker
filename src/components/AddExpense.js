@@ -4,8 +4,8 @@ import ExpenseForm from './ExpenseForm';
 import { addExpense } from '../actions/expenses';
 
 export class AddExpensePage extends React.Component {
-    onSubmit = (expense) => {
-        this.props.onSubmit(expense);
+    addExpense = (expense) => {
+        this.props.addExpense(expense);
         this.props.history.push('/');
     }
     render() {
@@ -13,18 +13,18 @@ export class AddExpensePage extends React.Component {
             <div>
                 <h1>Add Expense</h1>
                 <ExpenseForm 
-                    onSubmit={this.onSubmit}
+                    addExpense={this.addExpense}
                 />
             </div>
         );
     }
 }
 
-// move dispatch with addExpense to onSubmit function (instead of props.dispatch(addExpense(expense))) 
+// move dispatch with addExpense to addExpense function (instead of props.dispatch(addExpense(expense))) 
 // --> abstract dispatcher functions away from component itself
 const mapDispatchToProps = (dispatch) => (
     { 
-        onSubmit: (expense) => dispatch(addExpense(expense))
+        addExpense: (expense) => dispatch(addExpense(expense))
     }
 );
 
