@@ -8,40 +8,47 @@ const path = require('path');
 // e.g. path.join(__dirname, 'public');
 
 // expose object to another file (to webpack)
-module.exports = {
-    entry: './src/app.js',
-    output: {
-        // path to project on our machine 
-        path: path.join(__dirname, 'public'),
-        // common name for webpack - but can name it whatever you want
-        filename: 'bundle.js'
-    },
-    // module - set up rules for loader
-    module: {
-        // any file that ends with .js and is not in node_modules we will run babel-loader (configured in .babelrc)
-        rules: [{
-            loader: 'babel-loader',
-            // test - what files do we want to run the loader on e.g. only js files
-            test: /\.js$/,
-            exclude: /node_modules/
-        }, {
-            // allows .scss and .css
-            test:/\.s?css$/,
-            // in use can provide an array of loaders
-            use: [
-                'style-loader',
-                'css-loader',
-                'sass-loader'
-            ]
-        }]
-    },
-    // stack trace w/o bundle.js - to see line of code in console with actual file name and line number
-    devtool: 'cheap-module-source-map',
-    devServer: {
-        contentBase: path.join(__dirname, 'public'),
-        // to serve index.html for routing (i.e. for client side routing)
-        historyApiFallback: true
-    }
+// export function depending on environment
+module.exports = (env) => {
+    const isProduction = (env === 'production');
+    // change source map configuration based on environment
+
+    console.log('env', env);
+    return  {
+        entry: './src/app.js',
+        output: {
+            // path to project on our machine 
+            path: path.join(__dirname, 'public'),
+            // common name for webpack - but can name it whatever you want
+            filename: 'bundle.js'
+        },
+        // module - set up rules for loader
+        module: {
+            // any file that ends with .js and is not in node_modules we will run babel-loader (configured in .babelrc)
+            rules: [{
+                loader: 'babel-loader',
+                // test - what files do we want to run the loader on e.g. only js files
+                test: /\.js$/,
+                exclude: /node_modules/
+            }, {
+                // allows .scss and .css
+                test:/\.s?css$/,
+                // in use can provide an array of loaders
+                use: [
+                    'style-loader',
+                    'css-loader',
+                    'sass-loader'
+                ]
+            }]
+        },
+        // stack trace w/o bundle.js - to see line of code in console with actual file name and line number
+        devtool: isProduction ? 'source-map ' : 'cheap-module-source-map',
+        devServer: {
+            contentBase: path.join(__dirname, 'public'),
+            // to serve index.html for routing (i.e. for client side routing)
+            historyApiFallback: true
+        }
+    };
 };
 
 // loader - customize behavior of webpack when it loads a file (e.g. .ts)
