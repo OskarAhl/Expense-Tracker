@@ -1,7 +1,9 @@
 // critical information:
 // 1. Entry: src/app.js
 // 2. Output
-const path = require('path'); 
+const path = require('path');
+// for extracting css and scss files (why? as to not include in bundle.js - make it faster) 
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 // __dirname contains path to current location
 // path.join - best way to join paths - concatenating strings not viable because of edge cases.
@@ -10,8 +12,9 @@ const path = require('path');
 // expose object to another file (to webpack)
 // export function depending on environment
 module.exports = (env) => {
-    const isProduction = (env === 'production');
     // change source map configuration based on environment
+    const isProduction = (env === 'production');
+    const CSSExtract = new ExtractTextPlugin('styles.css');
 
     console.log('env', env);
     return  {
@@ -34,15 +37,29 @@ module.exports = (env) => {
                 // allows .scss and .css
                 test:/\.s?css$/,
                 // in use can provide an array of loaders
-                use: [
-                    'style-loader',
-                    'css-loader',
-                    'sass-loader'
-                ]
+                use: CSSExtract.extract({
+                    use: [
+                        {
+                            loader: 'css-loader',
+                            options: {
+                                sourceMap: true
+                            }
+                        },
+                        {
+                            loader: 'sass-loader',
+                            options: {
+                                sourceMap: true
+                            }
+                        }
+                    ]
+                })
             }]
         },
+        plugins: [
+            CSSExtract
+        ],
         // stack trace w/o bundle.js - to see line of code in console with actual file name and line number
-        devtool: isProduction ? 'source-map ' : 'cheap-module-source-map',
+        devtool: isProduction ? 'source-map' : 'inline-source-map',
         devServer: {
             contentBase: path.join(__dirname, 'public'),
             // to serve index.html for routing (i.e. for client side routing)
