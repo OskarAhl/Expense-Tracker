@@ -1,5 +1,5 @@
 // getExpensesTotal
-export default (expenses) => {
+const getExpensesTotal = (expenses) => {
     if (!expenses) {
         return 0;
     }
@@ -9,4 +9,11 @@ export default (expenses) => {
     }
     // object
     return expenses.amount;
-}
+};
+const getCountTotal = (expenses) => {
+    return expenses ? 
+        expenses.length > 1 || expenses.length === 0 ? 
+        expenses.length + ' expenses': expenses.length + ' expense'
+    : '0 expenses';
+};
+export { getExpensesTotal, getCountTotal };
