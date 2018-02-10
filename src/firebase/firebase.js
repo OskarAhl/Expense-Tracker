@@ -11,7 +11,22 @@ const config = {
     messagingSenderId: "358471724244"
   };
   firebase.initializeApp(config);
+  
+  // to access database functionality
+  const database = firebase.database();
 
-  firebase.database().ref().set({
-    name: 'Oskar'
+  database.ref().set({
+    name: 'Oskar',
+    age: 28,
+    isSingle: false,
+    location: {
+        city: 'KL',
+        country: 'MY'
+    },
+  });
+
+  database.ref('age').set(27);
+  database.ref('attributes').set({
+      height: 192,
+      weight: 92
   });
