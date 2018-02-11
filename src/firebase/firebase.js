@@ -29,13 +29,8 @@ const config = {
     console.log('This failed', e);
   });
 
-  //   database.ref('age').set(27);
-  database.ref('attributes').set({
-      height: 192,
-      weight: 92
-  }).then(() => {
-      console.log('attributes saved');
-  }).catch((e) => {
-    console.log(err);
-  });
-  console.log('here');
+// database.ref().remove().then(() => {
+//     console.log('done: ');
+// }).catch((e) => {
+//     console.log('something went wrong');
+// });
