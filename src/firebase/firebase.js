@@ -15,29 +15,50 @@ const config = {
   // to access database functionality
   const database = firebase.database();
 
-  database.ref().set({
-    name: 'Oskar',
-    age: 28,
-    stressLevel: '7',
-    job: {
-        title: 'Software dev',
-        company: 'Google'
-    },
-    location: {
-        city: 'KL',
-        country: 'MY'
-    },
-  }).then(() => {
-    console.log('data saved');
-  }).catch((e) => {
-    console.log('This failed', e);
+  // server will notify changes
+  const onValueChange = database.ref().on('value', (snapshot) => {
+    console.log(snapshot.val().name);
+  }, (e) => {
+      console.log('error: ', e);
   });
 
-  database.ref().update({
-    'job/company': 'Amazon',
-    stressLevel: 9,
-    'location/city': 'seattle'
-  });
+
+
+
+ 
+//   database.ref('location/city')
+//     .once('value')
+//     .then((snapshot) => {
+//         const val = snapshot.val();
+//         console.log(val);
+//     })
+//     .catch((e) => {
+//         console.log(e);
+//     });
+
+//   database.ref().set({
+//     name: 'Oskar',
+//     age: 28,
+//     stressLevel: '7',
+//     job: {
+//         title: 'Software dev',
+//         company: 'Google'
+//     },
+//     location: {
+//         city: 'KL',
+//         country: 'MY'
+//     },
+//   }).then(() => {
+//     console.log('data saved');
+//   }).catch((e) => {
+//     console.log('This failed', e);
+//   });
+
+//   database.ref().update({
+//     'job/company': 'Amazon',
+//     stressLevel: 9,
+//     'location/city': 'seattle'
+//   });
 
 // database.ref().remove().then(() => {
 //     console.log('done: ');
