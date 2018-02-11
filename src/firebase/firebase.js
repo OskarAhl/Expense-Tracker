@@ -12,56 +12,39 @@ const config = {
   };
   firebase.initializeApp(config);
   
-  // to access database functionality
-  const database = firebase.database();
+// to access database functionality
+const database = firebase.database();
 
-  // server will notify changes
-  const onValueChange = database.ref().on('value', (snapshot) => {
-    console.log(snapshot.val().name);
-  }, (e) => {
-      console.log('error: ', e);
-  });
-
-
-
-
- 
-//   database.ref('location/city')
-//     .once('value')
-//     .then((snapshot) => {
-//         const val = snapshot.val();
-//         console.log(val);
-//     })
-//     .catch((e) => {
-//         console.log(e);
+database.ref('expenses').on('child_changed', (ss) => {
+    console.log(ss.val());
+});
+// database.ref('expenses')
+//   .once('value')
+//   .then((ss) => {
+//     const expenses = [];
+//     ss.forEach((cs) => {
+//         expenses.push({
+//             id: cs.key,
+//             ...cs.val()
+//         });
 //     });
 
-//   database.ref().set({
-//     name: 'Oskar',
-//     age: 28,
-//     stressLevel: '7',
-//     job: {
-//         title: 'Software dev',
-//         company: 'Google'
-//     },
-//     location: {
-//         city: 'KL',
-//         country: 'MY'
-//     },
-//   }).then(() => {
-//     console.log('data saved');
-//   }).catch((e) => {
-//     console.log('This failed', e);
-//   });
-
-//   database.ref().update({
-//     'job/company': 'Amazon',
-//     stressLevel: 9,
-//     'location/city': 'seattle'
-//   });
-
-// database.ref().remove().then(() => {
-//     console.log('done: ');
-// }).catch((e) => {
-//     console.log('something went wrong');
 // });
+
+// database.ref('expenses')
+//   .on('value', (ss) => {
+//     const expenses = [];
+//     ss.forEach((cs) => {
+//         expenses.push({
+//             id: cs.key,
+//             ...cs.val()
+//         });
+//     });
+//     console.log(expenses);
+// });
+
+// database.ref('expenses').push({
+//     description: 'water',
+//     amount: 999
+// });
+
