@@ -23,10 +23,19 @@ const config = {
         city: 'KL',
         country: 'MY'
     },
+  }).then(() => {
+    console.log('data saved');
+  }).catch((e) => {
+    console.log('This failed', e);
   });
 
-  database.ref('age').set(27);
+  //   database.ref('age').set(27);
   database.ref('attributes').set({
       height: 192,
       weight: 92
+  }).then(() => {
+      console.log('attributes saved');
+  }).catch((e) => {
+    console.log(err);
   });
+  console.log('here');
