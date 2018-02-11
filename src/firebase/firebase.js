@@ -18,7 +18,11 @@ const config = {
   database.ref().set({
     name: 'Oskar',
     age: 28,
-    isSingle: false,
+    stressLevel: '7',
+    job: {
+        title: 'Software dev',
+        company: 'Google'
+    },
     location: {
         city: 'KL',
         country: 'MY'
@@ -27,6 +31,12 @@ const config = {
     console.log('data saved');
   }).catch((e) => {
     console.log('This failed', e);
+  });
+
+  database.ref().update({
+    'job/company': 'Amazon',
+    stressLevel: 9,
+    'location/city': 'seattle'
   });
 
 // database.ref().remove().then(() => {
