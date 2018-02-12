@@ -14,37 +14,3 @@ const config = {
   
 // to access database functionality
 const database = firebase.database();
-
-database.ref('expenses').on('child_changed', (ss) => {
-    console.log(ss.val());
-});
-// database.ref('expenses')
-//   .once('value')
-//   .then((ss) => {
-//     const expenses = [];
-//     ss.forEach((cs) => {
-//         expenses.push({
-//             id: cs.key,
-//             ...cs.val()
-//         });
-//     });
-
-// });
-
-// database.ref('expenses')
-//   .on('value', (ss) => {
-//     const expenses = [];
-//     ss.forEach((cs) => {
-//         expenses.push({
-//             id: cs.key,
-//             ...cs.val()
-//         });
-//     });
-//     console.log(expenses);
-// });
-
-// database.ref('expenses').push({
-//     description: 'water',
-//     amount: 999
-// });
-
