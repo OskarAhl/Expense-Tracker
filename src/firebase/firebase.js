@@ -14,3 +14,5 @@ const config = {
   
 // to access database functionality
 const database = firebase.database();
+
+export { firebase, database as default };
