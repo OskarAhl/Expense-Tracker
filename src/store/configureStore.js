@@ -13,6 +13,9 @@ export default () => {
             expenses: expensesReducer,
             filters: filterReducer
         }),
+        // thunk is middleware - 
+        // allows action creators that returns a function instead of action
+        // Why ? delay dispatch of action or only dispatch action if criteria is met
         composeEnhancers(applyMiddleware(thunk))
         // window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
     );

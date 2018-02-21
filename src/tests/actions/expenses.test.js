@@ -1,6 +1,9 @@
-import { addExpense, editExpense, removeExpense } from '../../actions/expenses';
+import configureMockStore from 'redux-mock-store';
+import thunk from 'redux-thunk';
+import { startAddExpense, addExpense, editExpense, removeExpense } from '../../actions/expenses';
+import expenses from '../fixtures/expenses';
 
-// call function and assert something about returned value
+const createMockStore = configureMockStore([thunk]);
 
 test('should setup remove expense action object', () => {
     const action = removeExpense({ id: '123abc' });
@@ -23,35 +26,34 @@ test('Should setup edit expense action object', () => {
 });
 
 test('Should setup add expense action object with provided values', () => {
-    const expenseData = {
-        description: 'rent',
-        amount: 1095,
-        createdAt: 1000,
-        note: 'This was last months rent'
-    }
-    const action = addExpense(expenseData);
+    const action = addExpense(expenses[0]);
     expect(action).toEqual({
         type: 'ADD_EXPENSE',
-        expense: {
-            ...expenseData,
-            id: expect.any(String)
-        }
+        expense: expenses[0]
+    });
+});
+
+test('should add expense to db and store', (done) => {
+    // check if database was updated
+    // check if add expense action was dispatch
+    const store = createMockStore({});
+    const expenseData = {
+        description: 'keyboard',
+        amount: 50,
+        note:'cooler',
+        createdAt: 1000
+    }
+    store.dispatch(startAddExpense(expenseData)).then(() => {
+        expect(1).toBe(2);
+        // force jest to wait until this point
+        done();
     });
 });
 
 test('Should setup add expense action object with no provided values', () => {
-    const expenseData = {
-        description: '', 
-        note:'', 
-        amount: 0, 
-        createdAt: 0
-    };
-    const action = addExpense();
+    const action = addExpense({});
     expect(action).toEqual({
         type: 'ADD_EXPENSE',
-        expense: {
-            ...expenseData,
-            id: expect.any(String)
-        }
+        expense: {}
     });
 });
