@@ -2,6 +2,7 @@
 // 1. Entry: src/app.js
 // 2. Output
 const path = require('path');
+const webpack = require('webpack');
 // for extracting css and scss files (why? as to not include in bundle.js - make it faster) 
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
@@ -11,6 +12,19 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 // expose object to another file (to webpack)
 // export function depending on environment
+
+
+// ENV for test setup in package.json - for production auto set by heroku
+process.env.NODE_ENV = process.env.NODE_ENV || 'development';
+// ---> do environment specific setup
+
+if (process.env.NODE_ENV === 'test') {
+    require('dotenv').config({ path: '.env.test'});
+} else if (process.env.NODE_ENV === 'development') {
+    require('dotenv').config({ path: '.env.development'});
+}
+
+
 module.exports = (env) => {
     // change source map configuration based on environment
     const isProduction = (env === 'production');
@@ -56,7 +70,15 @@ module.exports = (env) => {
             }]
         },
         plugins: [
-            CSSExtract
+            CSSExtract,
+            new webpack.DefinePlugin({
+                'process.env.FIREBASE_API_KEY': JSON.stringify(process.env.FIREBASE_API_KEY),
+                'process.env.FIREBASE_AUTH_DOMAIN': JSON.stringify(process.env.FIREBASE_AUTH_DOMAIN),
+                'process.env.FIREBASE_DATABASE_URL': JSON.stringify(process.env.FIREBASE_DATABASE_URL),
+                'process.env.FIREBASE_PROJECT_ID': JSON.stringify(process.env.FIREBASE_PROJECT_ID),
+                'process.env.FIREBASE_STORAGE_BUCKET': JSON.stringify(process.env.FIREBASE_STORAGE_BUCKET),
+                'process.env.FIREBASE_MESSAGING_SENDER_ID': JSON.stringify(process.env.FIREBASE_MESSAGING_SENDER_ID),
+            })
         ],
         // stack trace w/o bundle.js - to see line of code in console with actual file name and line number
         devtool: isProduction ? 'source-map' : 'inline-source-map',
