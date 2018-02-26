@@ -1,10 +1,13 @@
 # Expense-Tracker
+In progress.
+Front End: React + redux, scss
+Back End: Nodejs + firebase
 
-#Development
+# Development
 yarn run dev-server
 
-#Tests
+# Tests
 yarn test
 
-#Production:
+# Production:
 https://expense-track-app.herokuapp.com/
