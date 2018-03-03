@@ -23,19 +23,29 @@ const jsx = (
         <AppRouter />
     </Provider>
 );
+let hasRendered = false;
+const renderApp = () => {
+    if (!hasRendered) {
+        ReactDOM.render(jsx, document.getElementById('app'));  
+        hasRendered = true;
+    }
+}
 
 ReactDOM.render(<p>Loading...</p>, document.getElementById('app'));
-
-store.dispatch(startSetExpenses()).then((data) => {
-    ReactDOM.render(jsx, document.getElementById('app'));
-});
 
 // Auth state changed --> user login, logout callback
 firebase.auth().onAuthStateChanged((user) => {
     if (user) {
-        console.log('User logged in: ', user);
+        console.log('log in');
+        store.dispatch(startSetExpenses()).then((data) => {
+            renderApp();
+            if (history.location.pathname === '/') {
+                history.push('/dashboard');
+            }
+        });
     } else {
         console.log('log out');
+        renderApp();
         history.push('/');
     }
 });
