@@ -11,6 +11,9 @@ import 'normalize.css/normalize.css';
 import './styles/styles.scss';
 import 'react-dates/lib/css/_datepicker.css';
 import './firebase/firebase';
+
+import {firebase} from './firebase/firebase';
+
 // gives access to store.dispatch, store.subcscribe etc
 const store = configureStore();
 
@@ -27,3 +30,11 @@ store.dispatch(startSetExpenses()).then((data) => {
     ReactDOM.render(jsx, document.getElementById('app'));
 });
 
+// Auth state changed --> user login, logout callback
+firebase.auth().onAuthStateChanged((user) => {
+    if (user) {
+        console.log('log in');
+    } else {
+        console.log('log out');
+    }
+});
