@@ -6,3 +6,17 @@
     justify-content: space-between;
     padding: $s-size $m-size;
 }
+
+.list-item {
+    border: 1px solid darken($off-white, 7%);
+    border-top: none;
+    color: $dark-gray;
+    display: flex;
+    flex-direction: column;
+    padding: $s-size;
+    text-decoration: none;
+    transition: background .3s ease;
+    &:hover {
+        background: $off-white;
+    }   
+}
