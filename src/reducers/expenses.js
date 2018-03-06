@@ -23,7 +23,6 @@ export default (state = expensesDefaultState, action) => {
             }
         });
     case 'SET_EXPENSES':
-        console.log('set expenses', action.expenses);
         return action.expenses;
      default:
         return state;
