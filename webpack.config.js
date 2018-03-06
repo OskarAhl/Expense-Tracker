@@ -32,7 +32,7 @@ module.exports = (env) => {
 
     console.log('env', env);
     return  {
-        entry: './src/app.js',
+        entry: ['babel-polyfill', './src/app.js'],
         output: {
             // path to project on our machine 
             path: path.join(__dirname, 'public', 'dist'),
